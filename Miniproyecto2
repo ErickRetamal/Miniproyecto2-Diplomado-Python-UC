@@ -1,0 +1,93 @@
+from distutils.cmd import Command
+import random
+import numpy
+
+
+#Matrices
+M_Jugadores = [["","501"],["","501"]]
+M_Multiplicador = ["SINGLE SCORING","DOUBLE RING","TRIPLE RING","SINGLE BULL","DOUBLE BULL","ZONA NEGRA","FUERA"],[1,2,3,25,50,0,0]
+#Listas
+
+#Variables
+#V_jugador1 = "Juan"
+#V_jugador2 = "Juin"
+Puntaje1 = 501
+Puntaje2 = 501
+V_jugador1 = input("Ingrese nombre jugador").upper()
+V_jugador2 = input("Ingrese nombre jugador").upper()
+
+def BonusTiro (Bonus):
+    print("Bonus Multiplicador",Bonus)
+    Identificador = M_Multiplicador[0].index(Bonus)
+    #print (M_Multiplicador[1][Identificador])
+    return int(M_Multiplicador[1][Identificador])
+
+
+def ganador(Puntaje1, Puntaje2):
+    if Puntaje1 == 0:
+        print ("El ganador es:", M_Jugadores [0][0])
+        print("El jugador:",M_Jugadores [1][0],"finalizo con", Puntaje2)
+    elif Puntaje2 == 0:
+        print ("El ganador es:", M_Jugadores [1][0])
+        print("El jugador:",M_Jugadores [0][0],"finalizo con", Puntaje1)
+    else:
+        print("Aun no tenemos ganador")
+        print("El jugador:",M_Jugadores [0][0],"continua con", Puntaje1)
+        print("El jugador:",M_Jugadores [1][0],"continua con", Puntaje2)
+
+def jugada (tiro, bonus): 
+    if bonus == 0:
+        resultado = 0
+    elif bonus == 1: 
+        resultado = tiro * bonus
+    elif bonus == 2: 
+        resultado = tiro * bonus
+    elif bonus == 3: 
+        resultado = tiro * bonus
+    elif bonus == 25:
+        resultado = tiro + bonus
+    elif bonus == 50:
+        resultado = tiro + bonus
+    #print (resultado)
+    return resultado
+
+
+if V_jugador1[0:3]== V_jugador2[0:3]:
+
+    V_jugador1 = V_jugador1 [0:3]
+    V_jugador2 = V_jugador2 [0:3]+"2"
+else:
+    V_jugador1 = V_jugador1 [0:3]
+    V_jugador2 = V_jugador2 [0:3]    
+
+M_Jugadores [0][0] = V_jugador1
+M_Jugadores [1][0] = V_jugador2
+
+
+while Puntaje1!= 0 and Puntaje2 != 0:
+    print ("El puntaje del jugador 1",M_Jugadores [0][0],"es:",Puntaje1)
+    print ("El puntaje del jugador 2",M_Jugadores [1][0],"es:",Puntaje1)
+    Contador = 0
+    while Contador < 3:
+        #Lanzamiento jugador 1
+        tiro = int(input("Ingrese Lanzamiento de Jugador 1"))
+        bonus = BonusTiro(input("Ingrese bonus de tiro ").upper())
+        resultado = jugada(tiro,bonus)
+        Puntaje1 = Puntaje1 - resultado
+        Puntaje1 = abs(Puntaje1)
+        print ("El puntaje luego de la jugada",Contador+1,"es:", Puntaje1)
+        M_Jugadores[0].append(resultado)
+        Contador = Contador + 1 
+
+    Contador = 0
+    while Contador < 3:
+        #Lanzamiento jugador 1
+        tiro = int(input("Ingrese Lanzamiento de Jugador 2"))
+        bonus = BonusTiro(input("Ingrese bonus de tiro ").upper())
+        resultado = jugada(tiro,bonus)
+        Puntaje2 = Puntaje2 - resultado
+        Puntaje2 = abs(Puntaje2)
+        print ("El puntaje luego de la jugada",Contador+1,"es:", Puntaje2)
+        M_Jugadores[1].append(resultado)
+        Contador = Contador + 1 
+ganador(Puntaje1,Puntaje2)
